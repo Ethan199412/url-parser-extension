@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "Route Info Collector",
+    "version": "1.0",
+    "permissions": [
+        "tabs",
+        "scripting"
+    ],
+    "action": {
+      "default_popup": "popup/popup.html" 
+    },
+    "content_scripts": [{
+      "matches": ["<all_urls>"],
+      "js": ["./content-script.js"],
+      "persistent": true
+    }],
+    "host_permissions": ["<all_urls>"]
+  }
