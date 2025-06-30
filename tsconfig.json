@@ -4,8 +4,14 @@
         "src/**/*.d.ts",
         "index.d.ts",
         "global.d.ts"
-    ],
+, "src/index.tsx"    ],
     "compilerOptions": {
+        "lib": [
+            "dom",
+            "es2015",
+            "es2017",
+            "esnext.asynciterable"
+        ],
         "typeRoots": [ "./src/types"],
         "outDir": "./dist/",
         "noImplicitAny": false,

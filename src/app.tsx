@@ -5,12 +5,13 @@ import { Space, Table, message } from "antd";
 import type { TableProps } from "antd";
 import "./types/global.ts";
 
-global.window.params = {
-  routeParams: { a: 1, b: 2 },
-  hashParams: { c: 3, d: 4 },
-  filePath: "views/index/order.mpx",
-};
-
+if (mode === "development") {
+  window.params = {
+    routeParams: { a: 1, b: 2 },
+    hashParams: { c: 3, d: 4 },
+    filePath: "views/index/order.mpx",
+  };
+}
 class App extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -24,14 +25,7 @@ class App extends React.Component<any, any> {
   }
 
   componentDidMount(): void {
-    const id = setInterval(() => {
-      if (window.params) {
-        this.init();
-        clearInterval(id);
-      } else {
-        console.warn("window.params is not defined yet");
-      }
-    },1000)
+    this.init();
   }
 
   init = () => {
@@ -40,9 +34,14 @@ class App extends React.Component<any, any> {
     const columns = [
       { key: "key", title: "Key", dataIndex: "key" },
       { key: "value", title: "Value", dataIndex: "value" },
-      { key: "action", title: "Action", dataIndex: "action", render: (_, record) => {
-        return <a onClick={()=>this.handleClickCopy(record)}>copy</a>
-      }},
+      {
+        key: "action",
+        title: "Action",
+        dataIndex: "action",
+        render: (_, record) => {
+          return <a onClick={() => this.handleClickCopy(record)}>copy</a>;
+        },
+      },
     ];
 
     this.setState({
@@ -53,7 +52,6 @@ class App extends React.Component<any, any> {
         return {
           key,
           value,
-
         };
       }),
       hashData: Object.keys(hashParams).map((key) => {
@@ -67,11 +65,11 @@ class App extends React.Component<any, any> {
     });
   };
 
-  handleClickCopy = async (record) => {
-    console.log('[p1.3] record', record)
+  handleClickCopy = async (record: any) => {
+    console.log("[p1.3] record", record);
     await navigator.clipboard.writeText(record.value);
     message.info(`已复制: ${record.value}`);
-  }
+  };
 
   render() {
     const { routeColumns, routeData, hashColumns, hashData, filePath } =
@@ -96,9 +94,9 @@ class App extends React.Component<any, any> {
 }
 
 function getUrlParams(url) {
-  const str = new URL(url).search || '';
+  const str = new URL(url).search || "";
   const paramsStr = str.split("?")[1] || "";
-  console.log("[p1.3] params",url, paramsStr);
+  console.log("[p1.3] params", url, paramsStr);
   const routeParams = {};
   paramsStr.split("&").forEach((pair) => {
     const [key, value] = pair.split("=");
