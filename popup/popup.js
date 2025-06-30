@@ -1,30 +1,29 @@
-// 接收路由数据
-const routeHistory = [];
-chrome.runtime.onMessage.addListener((message) => {
-  console.log("[p1.4]", { message });
-  routeHistory.push(message)
-  if (message.type === "ROUTE_UPDATE") {
-    document.getElementById("currentRoute").textContent =
-      message.data.currentRoute;
-    document.getElementById("urlParams").textContent = JSON.stringify(
-      message.data.params,
-      null,
-      2
-    );
-    document.getElementById("routeHistory").textContent =
-      message.data.history.join("\n");
+function getUrlParams(url) {
+  const params = new URL(url).searchParams;
+  let result = '';
+  for (const [key, value] of params.entries()) {
+    result += `${key}: ${value}\n`;
   }
-});
-
-// 复制功能实现
-function copyText(elementId) {
-  console.log("[p1.0]", { elementId, routeHistory });
-//   const text = document.getElementById(elementId).textContent;
-//   navigator.clipboard.writeText(text).then(() => {
-//     alert("复制成功！");
-//   });
+  return result || '没有参数';
 }
 
-const btn = document.querySelector("#btn-copy");
-btn.onclick = copyText
+function getHashParams(url) {
+  const hash = url.split('#')[1];
+  const str = hash.split('?')[1]
 
+  const params = {}
+  str.split('&').forEach(pair  => {
+    const [key, value] = pair.split('='); 
+    
+    params[key] = decodeURIComponent(decodeURIComponent(value));
+    console.log('[p1.0] value', params[key])
+  });
+  return params;
+}
+
+chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  const url = tabs[0].url;
+  const paramsText = getUrlParams(url);
+  const hashParams = getHashParams(url);
+  document.getElementById('params').innerText = paramsText + '\n' + JSON.stringify(hashParams);
+});
