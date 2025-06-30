@@ -1,18 +1,10 @@
 {
-    "manifest_version": 3,
-    "name": "Route Info Collector",
-    "version": "1.0",
-    "permissions": [
-        "tabs",
-        "scripting"
-    ],
-    "action": {
-      "default_popup": "dist/popup.html" 
-    },
-    "content_scripts": [{
-      "matches": ["<all_urls>"],
-      "js": ["./content-script.js"],
-      "persistent": true
-    }],
-    "host_permissions": ["<all_urls>"]
+  "manifest_version": 3,
+  "name": "URL 参数查看器",
+  "version": "1.0",
+  "description": "查看当前页面 URL 的参数",
+  "permissions": ["tabs", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
   }
+}
