@@ -6,7 +6,7 @@
         "global.d.ts"
     ],
     "compilerOptions": {
-        "typeRoots": ["./types/"],
+        "typeRoots": [ "./src/types"],
         "outDir": "./dist/",
         "noImplicitAny": false,
         "module": "es6",

@@ -8,8 +8,12 @@ function getUrlParams(url) {
 }
 
 function getHashParams(url) {
-  const hash = url.split('#')[1];
-  const str = hash.split('?')[1]
+  const hash = url.split('#')[1] || '';
+  const str = hash.split('?')[1] || ''
+
+  if(!str){
+    return {}
+  }
 
   const params = {}
   str.split('&').forEach(pair  => {
@@ -23,7 +27,8 @@ function getHashParams(url) {
 
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
   const url = tabs[0].url;
+  console.log('[p1.1] url', url, tabs)
   const paramsText = getUrlParams(url);
-  const hashParams = getHashParams(url);
+  const hashParams = getHashParams(url) || '';
   document.getElementById('params').innerText = paramsText + '\n' + JSON.stringify(hashParams);
 });
