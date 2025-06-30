@@ -32,12 +32,13 @@ class App extends React.Component<any, any> {
     const { routeParams, hashParams, filePath } = window.params;
 
     const columns = [
-      { key: "key", title: "Key", dataIndex: "key" },
-      { key: "value", title: "Value", dataIndex: "value" },
+      { key: "key", title: "Key", dataIndex: "key", width: 100 },
+      { key: "value", title: "Value", dataIndex: "value", width: 150 },
       {
         key: "action",
         title: "Action",
         dataIndex: "action",
+        width: 50,
         render: (_, record) => {
           return <a onClick={() => this.handleClickCopy(record)}>copy</a>;
         },
@@ -76,16 +77,16 @@ class App extends React.Component<any, any> {
       this.state;
     return (
       <div className="App">
+        {routeData.length && <div className='table-container'>
+          <h3>Route Parameters</h3>
+          <Table columns={routeColumns} dataSource={routeData} pagination={false}/>
+        </div>}
+        {hashData.length && <div className='table-container'>
+          <h3>Hash Parameters</h3>
+          <Table columns={hashColumns} dataSource={hashData} pagination={false}/>
+        </div>}
         <>
-          <h1>Route Parameters</h1>
-          <Table columns={routeColumns} dataSource={routeData} />
-        </>
-        <>
-          <h1>Hash Parameters</h1>
-          <Table columns={hashColumns} dataSource={hashData} />
-        </>
-        <>
-          <h1>文件路径</h1>
+          <h3>文件路径</h3>
           <div>{filePath}</div>
         </>
       </div>
@@ -93,50 +94,5 @@ class App extends React.Component<any, any> {
   }
 }
 
-function getUrlParams(url) {
-  const str = new URL(url).search || "";
-  const paramsStr = str.split("?")[1] || "";
-  console.log("[p1.3] params", url, paramsStr);
-  const routeParams = {};
-  paramsStr.split("&").forEach((pair) => {
-    const [key, value] = pair.split("=");
-
-    routeParams[key] = decodeURIComponent(decodeURIComponent(value));
-    console.log("[p1.0] value", routeParams[key]);
-  });
-  return routeParams;
-}
-
-function getHashParams(url) {
-  const hash = url.split("#")[1] || "";
-  const str = hash.split("?")[1] || "";
-
-  if (!str) {
-    return {};
-  }
-
-  const hashParams = {};
-  str.split("&").forEach((pair) => {
-    const [key, value] = pair.split("=");
-
-    hashParams[key] = decodeURIComponent(decodeURIComponent(value));
-    console.log("[p1.0] value", hashParams[key]);
-  });
-  return hashParams;
-}
-
-chrome?.tabs?.query({ active: true, currentWindow: true }, function (tabs) {
-  const url = tabs[0].url;
-  console.log("[p1.1] url", url, tabs);
-  const routeParams = getUrlParams(url) || {};
-  const hashParams = getHashParams(url) || {};
-  window.params = {
-    routeParams: routeParams,
-    hashParams: hashParams,
-    filePath: url.split("/").pop() || "",
-  };
-  console.log("[p1.2] window.params", window.params);
-  // document?.getElementById('params').innerText = paramsText + '\n' + JSON.stringify(hashParams);
-});
 
 export default App;

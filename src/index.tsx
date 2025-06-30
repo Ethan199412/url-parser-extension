@@ -9,6 +9,7 @@ function getUrlParams(url: string): Record<string, string> {
   const paramsStr = str.split("?")[1] || "";
   const routeParams: Record<string, string> = {};
   paramsStr.split("&").forEach((pair) => {
+    if(!pair) return;
     const [key, value] = pair.split("=");
     routeParams[key] = decodeURIComponent(decodeURIComponent(value));
   });
@@ -20,6 +21,7 @@ function getHashParams(url: string): Record<string, string> {
   const str = hash.split("?")[1] || "";
   const hashParams: Record<string, string> = {};
   str.split("&").forEach((pair) => {
+    if(!pair) return;
     const [key, value] = pair.split("=");
     hashParams[key] = decodeURIComponent(decodeURIComponent(value));
   });
@@ -33,9 +35,16 @@ if (chrome?.tabs?.query) {
     const routeParams = getUrlParams(url);
     const hashParams = getHashParams(url);
     const filePath = url.split("/").pop() || "";
+    window.params = {
+      routeParams,
+      hashParams,
+      filePath,
+    };
+    console.log("[p1.3] window.params", window.params);
 
     ReactDOM.render(<App />, document.getElementById("root"));
   });
 }
-
-ReactDOM.render(<App />, document.getElementById("root"));
+else{
+    ReactDOM.render(<App />, document.getElementById("root"));
+}
