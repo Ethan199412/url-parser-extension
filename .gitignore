@@ -1,1 +1,8 @@
 test
+node_modules
+dist
+dll
+test
+*/**/submodule  
+
+ 

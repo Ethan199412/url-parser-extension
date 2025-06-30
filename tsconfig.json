@@ -1,0 +1,19 @@
+{
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "index.d.ts",
+        "global.d.ts"
+    ],
+    "compilerOptions": {
+        "typeRoots": ["./types/"],
+        "outDir": "./dist/",
+        "noImplicitAny": false,
+        "module": "es6",
+        "target": "es5",
+        "jsx": "react",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "sourceMap": true
+    }
+}
