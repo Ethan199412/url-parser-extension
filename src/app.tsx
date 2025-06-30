@@ -75,16 +75,21 @@ class App extends React.Component<any, any> {
   render() {
     const { routeColumns, routeData, hashColumns, hashData, filePath } =
       this.state;
+    const hasRoute = routeData.length > 0;
+    const hasHash = hashData.length > 0;
+
     return (
       <div className="App">
-        {routeData.length && <div className='table-container'>
+        <div className='table-container'>
           <h3>Route Parameters</h3>
-          <Table columns={routeColumns} dataSource={routeData} pagination={false}/>
-        </div>}
-        {hashData.length && <div className='table-container'>
+          {hasRoute && <Table columns={routeColumns} dataSource={routeData} pagination={false}/>}
+          {!hasRoute && <div>无 Route 参数</div>}
+        </div>
+        <div className='table-container'>
           <h3>Hash Parameters</h3>
-          <Table columns={hashColumns} dataSource={hashData} pagination={false}/>
-        </div>}
+          {hasHash && <Table columns={hashColumns} dataSource={hashData} pagination={false}/>}
+          {!hasHash && <div>无 Hash 参数</div>}
+        </div>
         <>
           <h3>文件路径</h3>
           <div>{filePath}</div>
