@@ -14,7 +14,9 @@ function getHashParams(url) {
   const params = {}
   str.split('&').forEach(pair  => {
     const [key, value] = pair.split('='); 
-    params[key] = decodeURIComponent(value);
+    
+    params[key] = decodeURIComponent(decodeURIComponent(value));
+    console.log('[p1.0] value', params[key])
   });
   return params;
 }
