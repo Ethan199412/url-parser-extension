@@ -1,26 +1,14 @@
 
- 
-// 监听 hashchange 事件（适用于单页应用）
-window.addEventListener('hashchange',  () => {
-  sendInfo()
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log('[p1.0] inject success')
+  if (message.action === "getLocalStorage") {
+    const allData = { ...localStorage };
+    sendResponse(allData); // 返回所有 localStorage 内容
+  }
+
+  if (message.action === "clearLogin") {
+    localStorage.removeItem('didih5_trinity_login_ticket');
+    localStorage.removeItem('didih5_trinity_login_ticket_role_30004');
+    sendResponse('success')
+  }
 });
- 
-// 监听 popstate 事件（适用于浏览器导航）
-window.addEventListener('popstate',  () => {
-  sendInfo()
-});
- 
-// 统一处理路由信息 
-function sendInfo() {
-  chrome.runtime.sendMessage({
-    location
-  });
-}
-
-function main(){
-    sendInfo()
-}
-
-main()
-
- 

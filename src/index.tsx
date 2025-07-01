@@ -28,13 +28,22 @@ function getHashParams(url: string): Record<string, string> {
   return hashParams;
 }
 
+function getFilePath(url: string): string {
+  const hash = url.split("#")[1] || '';
+  const pureHash = hash.split("?")[0] || "";
+  let route = new URL(url).pathname.replace('.html', '');
+  if(route === '/'){
+    route = '/index'
+  }
+  return 'views' + route + pureHash + ".mpx";
+}
 // 等参数准备好再渲染 App
 if (chrome?.tabs?.query) {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     const url = tabs[0].url;
     const routeParams = getUrlParams(url);
     const hashParams = getHashParams(url);
-    const filePath = url.split("/").pop() || "";
+    const filePath = getFilePath(url)
     window.params = {
       routeParams,
       hashParams,
