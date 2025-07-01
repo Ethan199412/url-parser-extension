@@ -90,17 +90,15 @@ class App extends React.Component<any, any> {
   };
 
   handleClearLogin=()=>{
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(
+    chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+      const response = await chrome.tabs.sendMessage(
         tabs[0].id,
         {
           action: "clearLogin",
         },
-        (response) => {
-          console.log("[p1.5] 设置成功？", response);
-          message.info('success')
-        }
       );
+      console.log('[p1.5] response', response)
+      message.info(response)
     });
   }
 
