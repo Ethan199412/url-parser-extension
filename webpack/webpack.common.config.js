@@ -6,7 +6,7 @@ const webpack = require("webpack");
 
 function getConfig(mode) {
   return {
-    entry: "./src/index.js",
+    entry: "./src/index.tsx",
     output: {
       path: path.resolve(__dirname, "../dist/"),
       publicPath: mode == "production" ? "./" : "http://localhost:3003/dist/",

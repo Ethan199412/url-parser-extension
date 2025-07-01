@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --hot --color --open --config ./webpack/webpack.dev.config.js",
+    "dev": "webpack-dev-server --color --open --config ./webpack/webpack.dev.config.js",
     "build": "webpack --config ./webpack/webpack.production.config.js",
     "build-dev": "webpack --config ./webpack/webpack.dev.config.js",
     "build-dll": "webpack --config ./webpack/webpack.dll.config.js"
@@ -48,6 +48,7 @@
     "@babel/plugin-proposal-private-methods": "^7.18.6",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/react": "^17.0.20",
+    "antd": "^5.26.3",
     "axios": "^1.6.8",
     "ethan1994-react-component-a": "^1.0.0",
     "mobx": "^5.15.7",
